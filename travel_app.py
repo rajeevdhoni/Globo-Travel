@@ -20,9 +20,9 @@ def load_data(file_path):
     except Exception as e:
         st.error(f"An error occurred while loading the data: {e}")
         st.stop()
-
+url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
 # Path to the Excel file
-file_path = r'C:\Users\dhoni\Desktop\globo4.2\updated_travel_data.xlsx'
+file_path = pd.read_excel(url)
 
 # Load the travel data
 travel_data = load_data(file_path)
