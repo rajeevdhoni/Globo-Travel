@@ -8,7 +8,7 @@ from openpyxl import load_workbook
 st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", layout="wide")
 
 
-url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
+
 # Function to load data from Excel
 @st.cache_data
 def load_data(url):
@@ -21,6 +21,7 @@ def load_data(url):
     except Exception as e:
         st.error(f"An error occurred while loading the data: {e}")
         st.stop()
+url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
 
 # Path to the Excel file
 file_path = (url)
