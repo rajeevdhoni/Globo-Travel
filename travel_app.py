@@ -7,46 +7,21 @@ from openpyxl import load_workbook
 # Page configuration for a better layout
 st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", layout="wide")
 
-
-
-# Function to load data from Excel (with error handling)
+# Function to load data from Excel
 @st.cache_data
 def load_data(url):
     try:
-        # Download the Excel file using requests
-        response = requests.get(url)
-        if response.status_code != 200:
-            raise Exception(f"Failed to download the Excel file: {response.status_code}")
-
-        # Save the downloaded file temporarily
-        with open('temp.xlsx', 'wb') as f:
-            f.write(response.content)
-
-        # Load the travel data from the downloaded file
-        data = pd.read_excel('temp.xlsx', engine='openpyxl')
-
-        # Remove the temporary file
-        import os
-        os.remove('temp.xlsx')
-
+        data = pd.read_excel(url, engine='openpyxl')
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
         return data
-    except requests.exceptions.RequestException as e:
-        st.error(f"An error occurred while fetching the data: {e}")
-        st.stop()
-    except pd.errors.ParserError as e:
-        st.error(f"Error parsing the Excel file: {e}")
-        st.stop()
-    except Exception as e:  # Catch all other exceptions
-        st.error(f"An unexpected error occurred: {e}")
+    except Exception as e:
+        st.error(f"An error occurred while loading the data: {e}")
         st.stop()
 
-url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
-
-# Load the travel data
-travel_data = load_data(url)
+# Update the URL to the raw link
+url = 'https://raw.githubusercontent.com/rajeevdhoni/Globo-Travel/main/updated_travel_data.xlsx'
 
 # Load the travel data
 travel_data = load_data(url)
