@@ -10,9 +10,9 @@ st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", 
 url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
 # Function to load data from Excel
 @st.cache_data
-def load_data(file_path):
+def load_data(url):
     try:
-        data = pd.read_excel(url)
+        data = pd.read_excel(url, engine='openpyxl')
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
