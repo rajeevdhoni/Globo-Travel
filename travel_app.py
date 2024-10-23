@@ -7,12 +7,12 @@ import requests  # Import requests for API calls
 st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", layout="wide")
 
 
-
+url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
 # Function to load data from Excel
 @st.cache_data
 def load_data(file_path):
     try:
-        data = pd.read_excel(file_path)
+        data = pd.read_excel(url)
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
@@ -20,12 +20,12 @@ def load_data(file_path):
     except Exception as e:
         st.error(f"An error occurred while loading the data: {e}")
         st.stop()
-url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
+
 # Path to the Excel file
-file_path = pd.read_excel(url)
+file_path = (url)
 
 # Load the travel data
-travel_data = load_data(file_path)
+travel_data = load_data(url)
 
 # Ensure necessary columns are present
 required_columns = ['Travel Company', 'Trip Location', 'People per Trip', 'Fees', 'Other Details', 'Departure Date', 'Return Date', 'Star Rating', 'Amenities', 'Travel Type', 'Image URL']
