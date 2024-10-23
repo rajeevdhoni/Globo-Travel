@@ -13,8 +13,22 @@ st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", 
 @st.cache_data
 def load_data(url):
     try:
-        # Assuming the URL points to an xlsx file
-        data = pd.read_excel(url, engine='openpyxl')
+        # Download the Excel file using requests
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise Exception(f"Failed to download the Excel file: {response.status_code}")
+
+        # Save the downloaded file temporarily
+        with open('temp.xlsx', 'wb') as f:
+            f.write(response.content)
+
+        # Load the travel data from the downloaded file
+        data = pd.read_excel('temp.xlsx', engine='openpyxl')
+
+        # Remove the temporary file
+        import os
+        os.remove('temp.xlsx')
+
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
@@ -30,6 +44,9 @@ def load_data(url):
         st.stop()
 
 url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
+
+# Load the travel data
+travel_data = load_data(url)
 
 # Load the travel data
 travel_data = load_data(url)
