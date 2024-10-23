@@ -9,22 +9,27 @@ st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", 
 
 
 
-# Function to load data from Excel
+# Function to load data from Excel (with error handling)
 @st.cache_data
 def load_data(url):
     try:
+        # Assuming the URL points to an xlsx file
         data = pd.read_excel(url, engine='openpyxl')
         if data.empty:
             st.error("The Excel file is empty.")
             st.stop()
         return data
-    except Exception as e:
-        st.error(f"An error occurred while loading the data: {e}")
+    except requests.exceptions.RequestException as e:
+        st.error(f"An error occurred while fetching the data: {e}")
         st.stop()
-url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
+    except pd.errors.ParserError as e:
+        st.error(f"Error parsing the Excel file: {e}")
+        st.stop()
+    except Exception as e:  # Catch all other exceptions
+        st.error(f"An unexpected error occurred: {e}")
+        st.stop()
 
-# Path to the Excel file
-file_path = (url)
+url = 'https://github.com/rajeevdhoni/Globo-Travel/blob/main/updated_travel_data.xlsx'
 
 # Load the travel data
 travel_data = load_data(url)
