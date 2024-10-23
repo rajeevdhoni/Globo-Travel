@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import requests  # Import requests for API calls
+from openpyxl import load_workbook
 
 # Page configuration for a better layout
 st.set_page_config(page_title="GLOBO Travel - All Travel Plans Under One Roof", layout="wide")
